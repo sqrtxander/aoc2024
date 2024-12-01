@@ -39,9 +39,9 @@ FROM lines;
 
 SELECT SUM(n) AS part2
 FROM (
-    SELECT l.n * COUNT(r.n) as n
+    SELECT l.n * COUNT(r.n) AS n
     FROM leftCoords AS l
-    LEFT JOIN rightCoords as r
+    LEFT JOIN rightCoords AS r
     ON l.n = r.n
     GROUP BY l.n
 );
