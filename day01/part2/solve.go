@@ -22,11 +22,11 @@ func solve(s string) int {
 		rightIDs[utils.HandledAtoi(nums[1])] += 1
 	}
 
-	distance := 0
+	similarity := 0
 	for _, id := range leftIDs {
-		distance += id * rightIDs[id]
+		similarity += id * rightIDs[id]
 	}
-	return distance
+	return similarity
 }
 
 func main() {
