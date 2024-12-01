@@ -17,6 +17,7 @@ solve :: [String] -> Int
 solve rows = let (left, right) = getNums rows
              in sum $ zipWith (\a b -> abs(a-b)) (sort left) (sort right)
 
+main :: IO()
 main = do
     rows <- lines <$> readFile "input.in"
     print $ solve rows

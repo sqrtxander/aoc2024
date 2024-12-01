@@ -21,6 +21,8 @@ solve :: [String] -> Int
 solve rows = let (left, right) = getNums rows
                  rightMap = countOccurrences right
              in sum $ map (\n -> n * IntMap.findWithDefault 0 n rightMap) left
+
+main :: IO()
 main = do
     rows <- lines <$> readFile "input.in"
     print $ solve rows
