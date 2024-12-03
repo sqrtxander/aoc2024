@@ -56,30 +56,25 @@ INSERT INTO reports (groupID, idx, num)
 SELECT nn.groupID, nn.idx, nn.n
 FROM nn;
 
-SELECT COUNT(groupID) AS part1
+SELECT COUNT(gid) AS part1
 FROM (
-    SELECT r1.groupID
-    FROM reports AS r1
-    LEFT JOIN reports AS r2
-        ON r1.groupID = r2.groupID
-        AND r1.idx + 1 = r2.idx
-    WHERE r2.num IS NULL OR (
-        r1.num - r2.num >= 1 AND
-        r1.num - r2.num <= 3
+    WITH joined AS (
+        SELECT r1.groupID as gid, r1.num as n1, r2.num as n2
+        FROM reports AS r1
+        LEFT JOIN reports AS r2
+            ON r1.groupID = r2.groupID
+            AND r1.idx + 1 = r2.idx
     )
-    GROUP BY r1.groupID
-    HAVING COUNT(*) = (SELECT COUNT(*) FROM reports AS r3 WHERE r3.groupID = r1.groupID)
-    UNION ALL
-    SELECT r1.groupID
-    FROM reports AS r1
-    LEFT JOIN reports AS r2
-        ON r1.groupID = r2.groupID
-        AND r1.idx + 1 = r2.idx
-    WHERE r2.num IS NULL OR (
-        r1.num - r2.num <= -1 AND
-        r1.num - r2.num >= -3
-    )
-    GROUP BY r1.groupID
-    HAVING COUNT(*) = (SELECT COUNT(*) FROM reports AS r3 WHERE r3.groupID = r1.groupID)
+    SELECT gid
+    FROM joined
+    WHERE n2 IS NULL OR n1-n2 BETWEEN 1 AND 3
+    GROUP BY gid
+    HAVING COUNT(*) = (SELECT COUNT(*) FROM reports AS r3 WHERE r3.groupID = gid)
+    UNION
+    SELECT gid
+    FROM joined
+    WHERE n2 IS NULL OR n1-n2 BETWEEN -3 AND -1
+    GROUP BY gid
+    HAVING COUNT(*) = (SELECT COUNT(*) FROM reports AS r3 WHERE r3.groupID = gid)
 );
 
