@@ -7,15 +7,11 @@ parse :: [String] -> Grid
 parse rows = Map.fromList [((x, y), z) | (y, row) <- zip [0 ..] rows, (x, z) <- zip [0 ..] row]
 
 countWord :: String -> (Integer, Integer) -> Grid -> Integer
-countWord s (x, y) g =
-    countWordDirection s (x, y) (0, 1) g
-        + countWordDirection s (x, y) (-1, 1) g
-        + countWordDirection s (x, y) (-1, 0) g
-        + countWordDirection s (x, y) (-1, -1) g
-        + countWordDirection s (x, y) (0, -1) g
-        + countWordDirection s (x, y) (1, 1) g
-        + countWordDirection s (x, y) (1, 0) g
-        + countWordDirection s (x, y) (1, -1) g
+countWord s p g =
+    let
+        dirs = [(0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, 1), (1, 0), (1, -1)]
+    in
+        sum [countWordDirection s p dir g | dir <- dirs]
 
 countWordDirection :: String -> (Integer, Integer) -> (Integer, Integer) -> Grid -> Integer
 countWordDirection "" _ _ _ = 1

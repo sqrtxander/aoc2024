@@ -16,13 +16,8 @@ isXMas (x, y) g =
 isRightCount :: (Integer, Integer) -> Grid -> Bool
 isRightCount (x, y) g =
     let
-        chars =
-            catMaybes
-                [ Map.lookup (x - 1, y - 1) g,
-                  Map.lookup (x + 1, y + 1) g,
-                  Map.lookup (x - 1, y + 1) g,
-                  Map.lookup (x + 1, y - 1) g
-                ]
+        dirs = [(-1, -1), (-1, 1), (1, 1), (1, -1)]
+        chars = catMaybes [Map.lookup (x + dx, y + dy) g | (dx, dy) <- dirs]
     in
         length (filter (== 'S') chars) == 2 && length (filter (== 'M') chars) == 2
 
