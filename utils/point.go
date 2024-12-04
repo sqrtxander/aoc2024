@@ -22,9 +22,9 @@ func ORIGIN3D() Point3D {
 type Direction complex128
 
 const (
-	UP Direction = complex(0, -1)
-	RIGHT  Direction = complex(1, 0)
-	DOWN Direction = complex(0, 1)
+	UP    Direction = complex(0, -1)
+	RIGHT Direction = complex(1, 0)
+	DOWN  Direction = complex(0, 1)
 	LEFT  Direction = complex(-1, 0)
 )
 
@@ -71,6 +71,15 @@ func Adjacent4(p Point) [4]Point {
 		{X: p.X - 1, Y: p.Y},
 		{X: p.X, Y: p.Y + 1},
 		{X: p.X, Y: p.Y - 1},
+	}
+}
+
+func Adjacent4Corners(p Point) [4]Point {
+	return [4]Point{
+        {X: p.X + 1, Y: p.Y - 1},
+		{X: p.X + 1, Y: p.Y + 1},
+		{X: p.X - 1, Y: p.Y - 1},
+		{X: p.X - 1, Y: p.Y + 1},
 	}
 }
 
